@@ -4,6 +4,7 @@ let Schema = mongoose.Schema;
 let StudentSchema = Schema({
     firstName: String,
     lastName: String,
+    id: Number,
 });
 
 let student = mongoose.model('Student', StudentSchema);
@@ -20,6 +21,7 @@ let gradeSchema = Schema({
     course: {type: mongoose.Schema.Types.ObjectId, ref: 'Course'},
     grade: Number,
     date: Date,
+    unique_id: Number,
 });
 let Grade = mongoose.model('Grade', gradeSchema);
 

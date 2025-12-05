@@ -30,4 +30,16 @@ function create(req, res) {
     });
 }
 
-module.exports = {getAll, create};
+function detail(req, res) {
+    let gradeId = req.params.gradeId;
+    Grade.findById(gradeId)
+        .populate('student')
+        .populate('course')
+        .then((grade) => {
+        res.send(grade);
+    }).catch((err) => {
+        res.send(err);
+    });
+}
+
+module.exports = {getAll, create, detail};

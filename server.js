@@ -4,14 +4,15 @@ let bodyParser = require('body-parser');
 let student = require('./routes/students');
 let course = require('./routes/courses');
 let grade = require('./routes/grades');
+let dataRows = require('./routes/data');
+require('dotenv').config();
 
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 //mongoose.set('debug', true);
 
 // TODO remplacer toute cette chaine par l'URI de connexion à votre propre base dans le cloud
-const uri = 'mongodb+srv://thecassion:ObtJnHtaiYXor3AU@cluster0.nazpjo8.mongodb.net/?appName=Cluster0';
-
+const uri = process.env.MONGODB_URI;
 const options = {};
 
 mongoose.connect(uri, options)
@@ -50,6 +51,15 @@ app.route(prefix + '/courses')
 app.route(prefix + '/grades')
     .get(grade.getAll)
     .post(grade.create);
+
+app.route(prefix + '/data')
+    .post(dataRows.create);
+app.route(prefix + '/students/:studentId')
+    .get(student.detail);
+app.route(prefix + '/courses/:courseId')
+    .get(course.detail);
+app.route(prefix + '/grades/:gradeId')
+    .get(grade.detail);
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");
